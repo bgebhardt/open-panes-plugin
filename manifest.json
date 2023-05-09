@@ -5,7 +5,7 @@
 	"minAppVersion": "0.15.0",
 	"description": "This is a plugin for Obsidian that adds a commpand to list the open panes as wikilinks at the current selection.",
 	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"authorUrl": "https://github.com/bgebhardt/open-panes-plugin",
+	"fundingUrl": "https://github.com/bgebhardt/open-panes-plugin",
 	"isDesktopOnly": false
 }
