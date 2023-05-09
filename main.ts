@@ -20,6 +20,16 @@ export default class MyPlugin extends Plugin {
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			new Notice('This is a notice!');
+
+			let panes = this.app.workspace.getLeavesOfType("markdown");
+			// path to pane (tab) name
+			//panes[0].view.file.name; // "test.md"
+			console.log("Number of open panes: ", panes.length);
+			panes.forEach(element => {
+
+				console.log(element.view.getDisplayText());
+
+			});
 		});
 		// Perform additional things with the ribbon
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
@@ -45,6 +55,34 @@ export default class MyPlugin extends Plugin {
 				editor.replaceSelection('Sample Editor Command');
 			}
 		});
+
+		// This adds an editor command that can perform some operation on the current editor instance
+		this.addCommand({
+			id: 'list-open-panes-command',
+			name: 'List Open Panes command',
+			editorCallback: (editor: Editor, view: MarkdownView) => {
+
+				let panes = this.app.workspace.getLeavesOfType("markdown");
+				// path to pane (tab) name
+				//panes[0].view.file.name; // "test.md"
+
+				let paneString:string = "";
+
+				console.log("Number of open panes: ", panes.length);
+				panes.forEach(element => {
+
+					console.log(element.view.getDisplayText());
+					paneString += "[["
+					paneString += element.view.getDisplayText();
+					paneString += "]]\n";
+
+				});
+				console.log(editor.getSelection());
+				console.log(paneString);
+				editor.replaceSelection(paneString);
+			}
+		});
+
 		// This adds a complex command that can check whether the current state of the app allows execution of the command
 		this.addCommand({
 			id: 'open-sample-modal-complex',
@@ -97,12 +135,12 @@ class SampleModal extends Modal {
 	}
 
 	onOpen() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.setText('Woah!');
 	}
 
 	onClose() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.empty();
 	}
 }
@@ -116,11 +154,11 @@ class SampleSettingTab extends PluginSettingTab {
 	}
 
 	display(): void {
-		const {containerEl} = this;
+		const { containerEl } = this;
 
 		containerEl.empty();
 
-		containerEl.createEl('h2', {text: 'Settings for my awesome plugin.'});
+		containerEl.createEl('h2', { text: 'Settings for my awesome plugin.' });
 
 		new Setting(containerEl)
 			.setName('Setting #1')
